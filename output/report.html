@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>異常解析レポート</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif; margin: 24px; color: #222; }
+    h1 { margin-bottom: 0.2rem; }
+    .muted { color: #666; font-size: 0.9rem; }
+    section { margin: 1.2rem 0; }
+    table { border-collapse: collapse; width: 100%; margin: 0.5rem 0; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background: #fafafa; text-align: left; }
+    .ok { color: #2e7d32; }
+    .ng { color: #c62828; }
+    .pill { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 999px; font-size: 0.8rem; background: #eee; }
+  </style>
+  </head>
+  <body>
+    <h1>異常解析レポート</h1>
+    <div class="muted">生成日時: 2025-08-11 14:32:43 / データ: samples/data.csv</div>
+
+    <section>
+      <h2>期待値</h2>
+      <pre>フレーム10では値が5であるべき、categoryがAの場合、値は10未満
+
+
+</pre>
+    </section>
+
+    <section>
+      <h2>解析結果</h2>
+      
+      
+        <h3>フレーム10の期待値チェック <span class="pill">equals_at_frame</span></h3>
+        <div class="muted">期待: フレーム10では値が5であるべき</div>
+        
+          <table>
+            <thead>
+              <tr>
+                <th>場所/範囲</th>
+                <th>実測値</th>
+                <th>期待値</th>
+                <th>差分</th>
+                <th>備考</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <td>10</td>
+                <td>15</td>
+                <td>5.0</td>
+                <td>10.0</td>
+                <td></td>
+              </tr>
+              
+            </tbody>
+          </table>
+        
+      
+        <h3>未対応の期待値(参考) <span class="pill">raw</span></h3>
+        <div class="muted">期待: categoryがAの場合</div>
+        
+          <p class="ok">違反はありません。</p>
+        
+      
+        <h3>未対応の期待値(参考) <span class="pill">raw</span></h3>
+        <div class="muted">期待: 値は10未満</div>
+        
+          <p class="ok">違反はありません。</p>
+        
+      
+    </section>
+
+    <section>
+      <h2>仮説</h2>
+      <pre>フレーム10に対する戻り値がコード内で 15 と固定されている可能性があります。仕様上の期待値と不一致です。</pre>
+    </section>
+
+    
+    <section>
+      <h2>グラフ</h2>
+      <img src="output/graph.png" alt="差分グラフ" style="max-width: 640px; width: 100%; height: auto;" />
+    </section>
+    
+
+    <section>
+      <h2>サマリ</h2>
+      <p>初心者向け: 期待値と実測値の差分を確認し、原因の仮説を提示します。</p>
+    </section>
+  </body>
+  </html>
+

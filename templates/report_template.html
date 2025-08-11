@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>異常解析レポート</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif; margin: 24px; color: #222; }
+    h1 { margin-bottom: 0.2rem; }
+    .muted { color: #666; font-size: 0.9rem; }
+    section { margin: 1.2rem 0; }
+    table { border-collapse: collapse; width: 100%; margin: 0.5rem 0; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background: #fafafa; text-align: left; }
+    .ok { color: #2e7d32; }
+    .ng { color: #c62828; }
+    .pill { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 999px; font-size: 0.8rem; background: #eee; }
+  </style>
+  </head>
+  <body>
+    <h1>異常解析レポート</h1>
+    <div class="muted">生成日時: {{ data.generated_at }} / データ: {{ data.source }}</div>
+
+    <section>
+      <h2>期待値</h2>
+      <pre>{{ data.expectation }}</pre>
+    </section>
+
+    <section>
+      <h2>解析結果</h2>
+      {% if results|length == 0 %}
+        <p class="ok">違反は検出されませんでした。</p>
+      {% endif %}
+      {% for res in results %}
+        <h3>{{ res.title }} <span class="pill">{{ res.type }}</span></h3>
+        <div class="muted">期待: {{ res.expected_description }}</div>
+        {% if (res.violations | length) == 0 %}
+          <p class="ok">違反はありません。</p>
+        {% else %}
+          <table>
+            <thead>
+              <tr>
+                <th>場所/範囲</th>
+                <th>実測値</th>
+                <th>期待値</th>
+                <th>差分</th>
+                <th>備考</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for v in res.violations %}
+              <tr>
+                <td>{{ v.frame }}</td>
+                <td>{{ v.value }}</td>
+                <td>{{ v.expected }}</td>
+                <td>{{ v.difference }}</td>
+                <td>{{ v.note }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
+      {% endfor %}
+    </section>
+
+    <section>
+      <h2>仮説</h2>
+      <pre>{{ hypothesis }}</pre>
+    </section>
+
+    {% if graph %}
+    <section>
+      <h2>グラフ</h2>
+      <img src="{{ graph }}" alt="差分グラフ" style="max-width: 640px; width: 100%; height: auto;" />
+    </section>
+    {% endif %}
+
+    <section>
+      <h2>サマリ</h2>
+      <p>{{ summary }}</p>
+    </section>
+  </body>
+  </html>
+
+
